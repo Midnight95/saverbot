@@ -24,10 +24,8 @@ token = os.getenv('BOT_TOKEN')
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = '''
-    Hi! I can dowload any media from Instagram, Tiktok and Pintrest by link.
-    I also can download whole profiles but require $$motivation$$
-    '''
+    text = """Hi! I can dowload any media from Instagram,
+Tiktok and Pintrest by link."""
     await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=text

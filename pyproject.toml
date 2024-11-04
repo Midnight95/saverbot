@@ -5,6 +5,9 @@ description = ""
 authors = ["midnight <ivanator666@gmail.com>"]
 license = "GPL v3"
 readme = "README.md"
+packages = [
+    {include = "saverbot"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -14,6 +17,11 @@ python-telegram-bot = "^21.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
+flake8 = "^7.1.1"
+
+
+[tool.poetry.scripts]
+bot = "saverbot.bot:main"
 
 [build-system]
 requires = ["poetry-core"]

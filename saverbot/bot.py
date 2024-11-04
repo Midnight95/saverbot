@@ -10,7 +10,7 @@ from telegram.ext import (
         MessageHandler
         )
 
-from parser import parser
+from saverbot.parser import parser
 
 
 logging.basicConfig(
@@ -42,9 +42,8 @@ async def process_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
 
 
-if __name__ == '__main__':
+def main():
     application = ApplicationBuilder().token(token).build()
-
     start_handler = CommandHandler(
             'start',
             start
@@ -57,3 +56,7 @@ if __name__ == '__main__':
     application.add_handler(start_handler)
     application.add_handler(echo_handler)
     application.run_polling()
+
+
+if __name__ == '__main__':
+    main()

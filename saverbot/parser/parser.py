@@ -3,12 +3,12 @@ from urllib import parse
 DOMAIN_LIST = [
         'tiktok.txt',
         'instagram.txt',
-        'pintrest.txt'
+        'pinterest.txt'
         ]
 ALLOWED_SOCIAL_MEDIA = (
         'tiktok',
         'instagram',
-        'pintrest'
+        'pinterest'
         )
 
 

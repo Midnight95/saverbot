@@ -1,6 +1,8 @@
-make run:
-	poetry run bot
+make build:
+	docker-build -t saverbot .
 
+make start:
+	docker run saverbot
 
 make lint:
 	poetry run flake8 saverbot

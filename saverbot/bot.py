@@ -25,7 +25,10 @@ token = os.getenv('BOT_TOKEN')
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = """Hi! I can dowload any media from Instagram,
-Tiktok and Pintrest by link."""
+Tiktok and Pintrest by link.
+Available actions:
+/start - itroduction
+/info - instruction"""
     await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=text
@@ -34,11 +37,16 @@ Tiktok and Pintrest by link."""
 
 async def process_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = parser.parse_url(update.message.text)
-    message = 'I require URL'
-    await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=f'this is {text} url' if text else message
-            )
+    if text:
+        await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=text
+                )
+    else:
+        await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text='I require URL'
+                )
 
 
 def main():

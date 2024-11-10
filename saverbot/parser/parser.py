@@ -33,4 +33,4 @@ def parse_url(url: str) -> None | str:
 
     for site in ALLOWED_SOCIAL_MEDIA:
         if site in domain:
-            return site
+            return url

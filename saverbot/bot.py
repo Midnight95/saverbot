@@ -11,6 +11,7 @@ from telegram.ext import (
         )
 
 from saverbot.parser import parser
+from saverbot.scripts.dowload import download
 
 
 logging.basicConfig(
@@ -35,17 +36,30 @@ Available actions:
             )
 
 
-async def process_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = """Give bot full url of any tiktok/instagram/pintrest media
+and it will download and send it to you as message.
+1. Url must start with https://
+2. Bot is working in test mode"""
+    await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=text
+            )
+
+
+async def send_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = parser.parse_url(update.message.text)
     if text:
-        await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text
-                )
+        filename = await download(text)
+        async with open(filename, 'rb') as file:
+            await context.bot.send_document(
+                    chat_id=update.effective_chat.id,
+                    document=file
+                    )
     else:
         await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text='I require URL'
+                text='I require correct URL'
                 )
 
 
@@ -57,7 +71,7 @@ def main():
             )
     url_handler = MessageHandler(
             filters.TEXT & (~filters.COMMAND),
-            process_text
+            send_media
             )
 
     application.add_handler(start_handler)

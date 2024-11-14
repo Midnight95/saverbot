@@ -51,11 +51,10 @@ async def send_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = parser.parse_url(update.message.text)
     if text:
         filename = await download(text)
-        async with open(filename, 'rb') as file:
-            await context.bot.send_document(
-                    chat_id=update.effective_chat.id,
-                    document=file
-                    )
+        await context.bot.send_document(
+                chat_id=update.effective_chat.id,
+                document=open(filename, 'rb')
+                )
     else:
         await context.bot.send_message(
                 chat_id=update.effective_chat.id,

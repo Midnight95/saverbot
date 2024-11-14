@@ -5,12 +5,12 @@ OPTS = {
         'allow_unplayable_formats': False,
         'restrictfilenames': True,
         'windowsfilenames': True,
+        'verbose': True,
         }
 
 
-def download(url: str):
+async def download(url: str) -> str:
     with YoutubeDL(OPTS) as loader:
-        info = loader.extract_info(url, download=False)
-        fn = loader.prepare_filename(info)
-        loader.download(url)
-        return fn
+        info_dict = loader.extract_info(url, download=True)
+        file_name = loader.prepare_filename(info_dict)
+        return file_name

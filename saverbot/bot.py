@@ -9,9 +9,9 @@ from telegram.ext import (
         CommandHandler,
         MessageHandler
         )
-
 from saverbot.parser import parser
 from saverbot.scripts.dowload import download
+from urllib import parse
 
 
 logging.basicConfig(
@@ -20,8 +20,13 @@ logging.basicConfig(
         format='%(asctime)s %(levelname)s %(message)s',
         )
 
+
 load_dotenv()
 token = os.getenv('BOT_TOKEN')
+instagram_credentials = {
+        'username': os.getenv('INSTAGRAM_USERNAME'),
+        'password': os.getenv('INSTAGRAM_PASSWORD')
+        }
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -48,16 +53,19 @@ and it will download and send it to you as message.
 
 
 async def send_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = parser.parse_url(update.message.text)
-    if text:
-        filename = await download(text)
-        message = await context.bot.send_document(
+    url = parser.parse_url(update.message.text)
+    if url:
+        netloc = parse.urlparse(url).netloc
+        if 'instagram' in netloc:
+            filename = await download(url, **instagram_credentials)
+        else:
+            filename = await download(url)
+        await context.bot.send_document(
                 chat_id=update.effective_chat.id,
                 document=open(filename, 'rb')
                 )
-        file_id = message.document.file_id
+        # file_id = message.document.file_id
         os.remove(filename)
-        print(file_id)  # stub for saving file id in database
     else:
         await context.bot.send_message(
                 chat_id=update.effective_chat.id,

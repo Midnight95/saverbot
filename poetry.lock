@@ -255,6 +255,22 @@ files = [
 ]
 
 [[package]]
+name = "instaloader"
+version = "4.14"
+description = "Download pictures (or videos) along with their captions and other metadata from Instagram."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "instaloader-4.14.tar.gz", hash = "sha256:754425eb17af44ce4bb6056e4eacd044a518d13b5efc11b9d80eb229bb96c652"},
+]
+
+[package.dependencies]
+requests = ">=2.25"
+
+[package.extras]
+browser-cookie3 = ["browser_cookie3 (>=0.19.1)"]
+
+[[package]]
 name = "mccabe"
 version = "0.7.0"
 description = "McCabe checker, plugin for flake8"
@@ -445,4 +461,4 @@ test = ["pytest (>=8.1,<9.0)", "pytest-rerunfailures (>=14.0,<15.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "5dfcb53d5617baefb8c31b1abac82242081e3b0c2891f774490bb6fc3e4a1ab2"
+content-hash = "207b5066217250228a895c24a274f8ffc32da400868e26b0dba3d011db617a80"

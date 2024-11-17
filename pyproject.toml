@@ -15,6 +15,7 @@ requests = "^2.32.3"
 python-dotenv = "^1.0.1"
 python-telegram-bot = "^21.6"
 yt-dlp = "^2024.11.4"
+instaloader = "^4.14"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"

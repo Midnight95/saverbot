@@ -6,3 +6,8 @@ make start:
 
 make lint:
 	poetry run flake8 saverbot
+
+make instagram-session:
+	echo 'Please enter instagram username'
+	read username
+	poetry run instaloader -l $username

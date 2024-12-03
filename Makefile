@@ -1,13 +1,14 @@
-make build:
+build:
 	docker build -t saverbot .
 
-make start:
+start:
 	docker run -t saverbot
 
-make lint:
+lint:
 	poetry run flake8 saverbot
 
-make instagram-session:
-	echo 'Please enter instagram username'
-	read username
-	poetry run instaloader -l $username
+instagram-session:
+	@echo 'Please enter instagram username'
+	@read username; poetry run instaloader -l $$username; mv /home/$$USER/.config/instaloader/session-$$username .
+	
+

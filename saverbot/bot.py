@@ -11,7 +11,6 @@ from telegram.ext import (
         )
 from saverbot.parser import parser
 from saverbot.scripts.dowload import download
-from urllib import parse
 
 
 logging.basicConfig(
@@ -51,13 +50,12 @@ and it will download and send it to you as message.
 async def send_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
     url = parser.parse_url(update.message.text)
     if url:
-        filename = await download(url)
+        file = await download(url)
         await context.bot.send_document(
                 chat_id=update.effective_chat.id,
-                document=open(filename, 'rb')
+                document=open(file, 'rb')
                 )
-        # file_id = message.document.file_id
-        os.remove(filename)
+        os.remove(file)
     else:
         await context.bot.send_message(
                 chat_id=update.effective_chat.id,

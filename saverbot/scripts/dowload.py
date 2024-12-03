@@ -1,5 +1,6 @@
 from yt_dlp import YoutubeDL
 import instaloader
+import os
 
 
 OPTS = {
@@ -8,6 +9,8 @@ OPTS = {
         'windowsfilenames': True,
         'verbose': True,
         }
+
+INSTAGRAM_SESSION = [i for i in os.listdir() if i.startswith('session')][0]
 
 
 async def tt_download(url: str, **kwargs) -> str:
@@ -20,4 +23,13 @@ async def tt_download(url: str, **kwargs) -> str:
 
 
 async def inst_loader(url: str, **kwargs) -> str:
-       pass 
+    loader = instaloader.Instaloader()
+    loader.load_session_from_file(
+            username=INSTAGRAM_SESSION[INSTAGRAM_SESSION.find('-')+1:],
+            filename=INSTAGRAM_SESSION
+            )
+
+    shorcode = url[url.rfind('p/')+2:]
+    post = instaloader.Post.from_shortcode(loader.context, shorcode)
+    loader.download_post(post, shorcode)
+    return shorcode

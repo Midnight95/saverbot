@@ -1,16 +1,11 @@
 import os
 import logging
+import asyncio
 from dotenv import load_dotenv
-from telegram import Update
-from telegram.ext import (
-        filters,
-        ApplicationBuilder,
-        ContextTypes,
-        CommandHandler,
-        MessageHandler
-        )
-from saverbot.parser import parser
-from saverbot.scripts.dowload import download
+from typing import Any, Dict, Optional, Union
+from aiogram import Bot, Dispatcher
+from aiogram.filters import CommandStart
+from aiogram.types import Message
 
 
 logging.basicConfig(
@@ -23,61 +18,18 @@ logging.basicConfig(
 load_dotenv()
 token = os.getenv('BOT_TOKEN')
 
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = """Hi! I can dowload any media from Instagram,
-Tiktok and Pintrest by link.
-Available actions:
-/start - itroduction
-/info - instruction"""
-    await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text
-            )
+bot = Bot(token=token)
+dp = Dispatcher()
 
 
-async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = """Give bot full url of any tiktok/instagram/pintrest media
-and it will download and send it to you as message.
-1. Url must start with https://
-2. Bot is working in test mode"""
-    await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text
-            )
+@dp.message(CommandStart())
+async def cmd_start(message: Message):
+    await message.answer('OHAYO')
 
 
-async def send_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    url = parser.parse_url(update.message.text)
-    if url:
-        file = await download(url)
-        await context.bot.send_document(
-                chat_id=update.effective_chat.id,
-                document=open(file, 'rb')
-                )
-        os.remove(file)
-    else:
-        await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text='I require correct URL'
-                )
-
-
-def main():
-    application = ApplicationBuilder().token(token).build()
-    start_handler = CommandHandler(
-            'start',
-            start
-            )
-    url_handler = MessageHandler(
-            filters.TEXT & (~filters.COMMAND),
-            send_media
-            )
-
-    application.add_handler(start_handler)
-    application.add_handler(url_handler)
-    application.run_polling()
+async def main():
+    await dp.start_polling(bot)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

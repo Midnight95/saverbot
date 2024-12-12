@@ -4,11 +4,11 @@ import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 
-from app.handlers import router
+from saverbot.app.handlers import router
 
 
 logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG,
         filemode=f'{__name__}.log',
         format='%(asctime)s %(levelname)s %(message)s',
         )

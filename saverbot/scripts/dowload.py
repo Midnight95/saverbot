@@ -33,3 +33,7 @@ async def inst_loader(url: str, **kwargs) -> str:
     post = instaloader.Post.from_shortcode(loader.context, shorcode)
     loader.download_post(post, shorcode)
     return shorcode
+
+
+async def pintrest_loader(url: str, **kwargs) -> str:
+    pass

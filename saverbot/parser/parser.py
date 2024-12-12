@@ -12,7 +12,7 @@ ALLOWED_SOCIAL_MEDIA = (
         )
 
 
-def generate_urls() -> set:
+async def generate_urls() -> set:
     allowed_urls = set()
     for file in DOMAIN_LIST:
         with open(f'saverbot/parser/{file}') as f:
@@ -21,16 +21,14 @@ def generate_urls() -> set:
     return allowed_urls
 
 
-def parse_url(url: str) -> None | str:
-    allowed = generate_urls()
+async def parse_url(url: str) -> None | str:
     u = parse.urlparse(url)
+    allowed = await generate_urls()
     if u.scheme not in ('http', 'https', ''):
         return
 
-    domain = u.netloc
-    if domain not in allowed:
+    current = u.netloc
+    if current not in allowed:
         return
 
-    for site in ALLOWED_SOCIAL_MEDIA:
-        if site in domain:
-            return url
+    return current

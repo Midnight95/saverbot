@@ -10,14 +10,14 @@ class UrlFilter(Filter):
     async def __call__(self, message: Message) -> bool:
         url = await parse_url(message.text)
 
-        return url is None
+        return url is not None
 
 
 @router.message(Command('start'))
 async def cmd_start(message: Message):
-    await message.answer('Hi, Mark!')
+    await message.answer('OHAYO')
 
 
 @router.message(UrlFilter())
-async def invalid(message: Message):
-    await message.answer('Please enter url')
+async def instagram(message: Message):
+    await message.answer('instagram')

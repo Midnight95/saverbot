@@ -21,14 +21,10 @@ async def generate_urls() -> set:
     return allowed_urls
 
 
-async def parse_url(url: str) -> None | str:
+async def filter_url(url: str) -> None | str:
     u = parse.urlparse(url)
     allowed = await generate_urls()
-    if u.scheme not in ('http', 'https', ''):
-        return
+    if u.scheme not in ('http', 'https', '') or u.netloc not in allowed:
+        return False
 
-    current = u.netloc
-    if current not in allowed:
-        return
-
-    return current
+    return True

@@ -1,16 +1,15 @@
 from aiogram import Router
 from aiogram.filters import Command, Filter
 from aiogram.types import Message
-from saverbot.parser import parse_url
+from saverbot.parser import filter_url
 
 router = Router()
 
 
 class UrlFilter(Filter):
     async def __call__(self, message: Message) -> bool:
-        url = await parse_url(message.text)
-
-        return url is not None
+        url = await filter_url(message.text)
+        return url
 
 
 @router.message(Command('start'))

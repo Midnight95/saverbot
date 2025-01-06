@@ -31,8 +31,10 @@ async def inst_loader(url: str, **kwargs) -> str:
 
     shorcode = url[url.rfind('p/')+2:]
     post = instaloader.Post.from_shortcode(loader.context, shorcode)
-    loader.download_post(post, shorcode)
-    return shorcode
+    # the name of a dir with files is shortcode
+    if loader.download_post(post, shorcode):
+        return shorcode
+    return
 
 
 async def pintrest_loader(url: str, **kwargs) -> str:
